@@ -52,7 +52,7 @@ img {
   width: 100%;
   padding: 0 0.2rem;
   font-size: 1.125rem;
-  font-family: "Source Han Sans Medium", ui-sans-serif;
+  font-family: "AlibabaPuHuiTi3 Medium", ui-sans-serif;
   text-align: left;
   line-height: 1.5;
   color: rgb(49, 55, 61);
@@ -78,4 +78,5 @@ img {
   background-color: rgb(160, 152, 174);
   display: inline-block;
 }
+
 </style>

@@ -19,6 +19,7 @@ for (let i = 0; i < 50; i++) {
 
 <template>
   <div class="notifications-container">
+    <div class="fuzzy"/>
     <div class="scrollbar">
       <input class="search"/>
       <div class="cards">
@@ -45,13 +46,25 @@ div.notifications-container {
   width: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: -2;
+}
+
+div.fuzzy {
+  width: 500px;
+  height: 500px;
+  background-color: red;
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  top: 0;
 }
 
 div.scrollbar {
   padding: 0 2.6rem 0 0;
   overflow: scroll;
   width: 100%;
-  height: 90vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
 }
