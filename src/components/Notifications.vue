@@ -19,7 +19,7 @@ for (let i = 0; i < 50; i++) {
 
 <template>
   <div class="notifications-container">
-    <div class="fuzzy"/>
+    <div class="fuzzy oval1"/>
     <div class="scrollbar">
       <input class="search"/>
       <div class="cards">
@@ -47,18 +47,24 @@ div.notifications-container {
   display: flex;
   flex-direction: column;
   position: relative;
-  z-index: -2;
+  overflow: hidden;
 }
 
 div.fuzzy {
-  width: 500px;
-  height: 500px;
-  background-color: red;
   position: absolute;
-  z-index: -1;
-  left: 0;
-  top: 0;
+  border-radius: 50%/50%;
+  background-color: aqua;
+
+
+  &.oval1 {
+    width: 20rem;
+    height: 18rem;
+    filter: blur(5rem);
+    top: 10%;
+    left: 20%;
+  }
 }
+
 
 div.scrollbar {
   padding: 0 2.6rem 0 0;
@@ -67,6 +73,7 @@ div.scrollbar {
   height: 100%;
   display: flex;
   flex-direction: column;
+  z-index: 1;
 }
 
 div.scrollbar::-webkit-scrollbar {
@@ -122,6 +129,7 @@ div.page-menu {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.6875rem;
+  z-index: 1;
 }
 
 input.page-button, div.page-button {
