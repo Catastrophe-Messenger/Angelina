@@ -53,7 +53,6 @@ img {
   padding: 0 0.2rem;
   font-size: 1.125rem;
   font-weight: 600;
-  text-align: left;
   line-height: 1.5;
   color: rgb(49, 55, 61);
 }
