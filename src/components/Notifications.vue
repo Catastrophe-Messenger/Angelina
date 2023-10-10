@@ -3,6 +3,7 @@ import {ref} from 'vue'
 import type {Ref} from 'vue'
 import Card from "./Card.vue";
 import type {CardProps} from "./Card.vue";
+import Pagination from "./Pagination.vue";
 
 const cards: Ref<Array<CardProps>> = ref([])
 
@@ -27,11 +28,9 @@ for (let i = 0; i < 50; i++) {
               :date="card.date" :list_name="card.list_name"/>
       </div>
     </div>
-    <div class="page-menu">
+    <div class="bottom">
       <p>24小时内有5条消息 30条报错 100条错误密码</p>
-      <div v-for="index in [1,2,3,4,5,6]" class="page-button">{{ index }}</div>
-      <div class="page-button">...100</div>
-      <input class="page-button"/>
+      <Pagination/>
     </div>
   </div>
 </template>
@@ -74,27 +73,27 @@ div.scrollbar {
   display: flex;
   flex-direction: column;
   z-index: 1;
+
+  &::-webkit-scrollbar {
+    width: 0.35rem;
+    height: 0;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: rgba(160, 152, 174, 0.3);
+    border-radius: 0.15rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 0.15rem;
+    background-color: rgba(160, 152, 174, 0.7);
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(160, 152, 174, 0.9);
+  }
 }
 
-div.scrollbar::-webkit-scrollbar {
-  width: 0.35rem;
-  height: 0;
-}
-
-div.scrollbar::-webkit-scrollbar-track {
-  background-color: rgba(160, 152, 174, 0.3);
-  border-radius: 0.15rem;
-}
-
-
-div.scrollbar::-webkit-scrollbar-thumb {
-  border-radius: 0.15rem;
-  background-color: rgba(160, 152, 174, 0.7);
-}
-
-div.scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(160, 152, 174, 0.9);
-}
 
 input.search {
   margin-bottom: 1.25rem;
@@ -106,12 +105,11 @@ input.search {
   border: none;
   border-radius: 1.25rem;
   background-color: #FCFCFC;
-}
 
-input.search:focus {
-  outline: none;
+  &:focus {
+    outline: none;
+  }
 }
-
 
 div.cards {
   width: 100%;
@@ -120,43 +118,15 @@ div.cards {
   grid-gap: 0.5rem 2.875rem;
 }
 
-
-div.page-menu {
+div.bottom {
   margin-top: 1.875rem;
   margin-bottom: 1.25rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.6875rem;
+  justify-content: space-between;
   z-index: 1;
-}
-
-input.page-button, div.page-button {
-  height: 2.5rem;
-  min-width: 2.5rem;
-  max-width: 7rem;
-  border: none;
-  border-radius: 0.9375rem;
-  background-color: #FCFCFC;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 0.9rem;
-  box-shadow: -1px 5px 13px -10px rgba(0, 0, 0, 0.25);
-}
-
-input.page-button {
-  max-width: 5rem;
-}
-
-div.page-button:hover {
-  cursor: pointer;
-  background-color: #D3E4FD;
-}
-
-input.page-button:focus {
-  outline: none;
 }
 </style>
 
