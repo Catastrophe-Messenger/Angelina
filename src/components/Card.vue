@@ -32,7 +32,7 @@ const props = defineProps<CardProps>()
   display: flex;
   flex-wrap: wrap;
   align-content: space-between;
-  gap: 0 0.9rem;
+  gap: 0.6rem 0.9rem;
   box-sizing: border-box;
   background-color: white;
 }
@@ -52,7 +52,7 @@ img {
   width: 100%;
   padding: 0 0.2rem;
   font-size: 1.125rem;
-  font-weight: bold;
+  font-weight: 600;
   text-align: left;
   line-height: 1.5;
   color: rgb(49, 55, 61);
@@ -61,6 +61,7 @@ img {
 .subtitle {
   padding: 0 0.2rem;
   font-size: 0.625rem;
+  font-weight: normal;
   color: rgb(187, 189, 191);
 }
 

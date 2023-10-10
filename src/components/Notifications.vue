@@ -39,7 +39,7 @@ for (let i = 0; i < 50; i++) {
 
 div.notifications-container {
   padding: 3rem 3.6rem 0 3.6rem;
-  background-color: var(--notification-background-color);
+  background-color: var(--color-notification-background);
   height: 100vh;
   max-height: 100vh;
   width: 100%;
@@ -47,6 +47,10 @@ div.notifications-container {
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  @media (max-width: 1280px) {
+    padding: 3rem 1.6rem 0 1.6rem;
+
+  }
 }
 
 div.fuzzy {
