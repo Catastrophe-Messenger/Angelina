@@ -52,7 +52,7 @@ img {
   width: 100%;
   padding: 0 0.2rem;
   font-size: 1.125rem;
-  font-family: "AlibabaPuHuiTi3 Medium", ui-sans-serif;
+  font-weight: bold;
   text-align: left;
   line-height: 1.5;
   color: rgb(49, 55, 61);

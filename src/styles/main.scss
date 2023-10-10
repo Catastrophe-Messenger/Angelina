@@ -1,5 +1,7 @@
+@import "color";
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Microsoft YaHei UI", "Microsoft YaHei", sans-serif, monospace;
   font-size: 16px;
   line-height: 1.5;
 }
@@ -17,8 +19,12 @@ body {
 }
 
 a, b, i, p, input {
-  font-family: "AlibabaPuHuiTi3 Regular", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Microsoft YaHei UI", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   text-rendering: auto;
+}
+
+textarea, code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace !important;
 }
 
 #app {
@@ -32,14 +38,4 @@ a, b, i, p, input {
   :root {
     font-size: clamp(8px, calc(100vw / 100), 24px);
   }
-}
-
-@font-face {
-  src: url("@/assets/fonts/AlibabaPuHuiTi-3-55-Regular.woff2");
-  font-family: 'AlibabaPuHuiTi3 Regular';
-}
-
-@font-face {
-  src: url("@/assets/fonts/AlibabaPuHuiTi-3-65-Medium.woff2");
-  font-family: 'AlibabaPuHuiTi3 Medium';
 }
