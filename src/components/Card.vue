@@ -4,7 +4,7 @@ export interface CardProps {
   image: string
   title: string
   date: Date
-  list_name?: string
+  tag?: string
 }
 
 const props = defineProps<CardProps>()
@@ -17,7 +17,7 @@ const props = defineProps<CardProps>()
     <img :src="props.image" alt="card"/>
     <p class="title">{{ props.title }}</p>
     <p class="subtitle">{{ props.date.toLocaleString('zh-CN', {hour12: false}).replace(/\//g, '-') }}</p>
-    <p v-if="props.list_name" class="subtitle">{{ props.list_name }}</p>
+    <p v-if="props.tag" class="subtitle">{{ props.tag }}</p>
     <div class="dotBox"><span class="dot"/><span class="dot"/><span class="dot"/></div>
   </div>
 </template>

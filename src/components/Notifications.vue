@@ -8,15 +8,25 @@ import {NotificationArkLightsSearch} from "@/api/resource";
 
 const cards: Ref<Array<CardProps>> = ref([])
 
-async function updateCards(page: number = 1, page_size: number = 64) {
+const NOTIFICATION_TYPES_MAP: { [key: string]: string } = {
+  "task_start": "任务开始",
+  "task_failed": "任务失败",
+  "task_success": "任务成功",
+  "mission_failed": "代理作战失败",
+  "timeout_restart": "超时重启",
+  "integrated_strategies": "集成战略"
+}
+
+
+async function updateCards(page: number = 1, page_size: number = 255) {
   cards.value = []
-  let data = await NotificationArkLightsSearch.get({page: page, page_size: page_size})
+  let data = await NotificationArkLightsSearch.request({page: page, page_size: page_size})
   for (let item of data.items) {
     cards.value.push({
       image: item.image_path ? "/api/resource/image/" + item.image_path : "/public/card.png",
       title: item.content || "",
       date: new Date(item.send_time),
-      list_name: item.notification_type,
+      tag: NOTIFICATION_TYPES_MAP[item.notification_type],
     })
   }
 }
@@ -32,7 +42,7 @@ updateCards()
       <input class="search"/>
       <div class="cards">
         <Card v-for="card in cards" :image="card.image" :title="card.title"
-              :date="card.date" :list_name="card.list_name"/>
+              :date="card.date" :tag="card.tag"/>
       </div>
     </div>
     <div class="bottom">

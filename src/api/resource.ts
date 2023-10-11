@@ -30,7 +30,7 @@ export namespace NotificationArkLightsSearch {
     }>
   }
 
-  export async function get(params: Request): Promise<Response> {
+  export async function request(params: Request): Promise<Response> {
     try {
       let response = await server.get<Response>(url, {params});
       return response.data
