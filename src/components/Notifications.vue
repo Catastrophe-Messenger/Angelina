@@ -115,7 +115,7 @@ input.search {
   border: none;
   border-radius: 1.25rem;
   background-color: #FCFCFC;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .08);
+  box-shadow: 0 -2.5rem 2rem 4rem var(--color-notification-background);
   position: sticky;
   top: 0;
   z-index: 2;
