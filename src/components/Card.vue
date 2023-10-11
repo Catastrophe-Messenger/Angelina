@@ -17,7 +17,7 @@ const props = defineProps<CardProps>()
     <img :src="props.image" alt="card"/>
     <p class="title">{{ props.title }}</p>
     <p class="subtitle">{{ props.date.toLocaleString('zh-CN', {hour12: false}).replace(/\//g, '-') }}</p>
-    <p v-if="props.list_name" class="subtitle">所在列表：{{ props.list_name }}</p>
+    <p v-if="props.list_name" class="subtitle">{{ props.list_name }}</p>
     <div class="dotBox"><span class="dot"/><span class="dot"/><span class="dot"/></div>
   </div>
 </template>
@@ -31,7 +31,7 @@ const props = defineProps<CardProps>()
   display: flex;
   flex-wrap: wrap;
   align-content: space-between;
-  gap: 0 0.9rem;
+  gap: 0 0.3rem;
   background-color: var(--color-notification-card-background);
 }
 

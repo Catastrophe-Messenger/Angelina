@@ -16,7 +16,7 @@ async function updateCards(page: number = 1, page_size: number = 64) {
       image: item.image_path ? "/api/resource/image/" + item.image_path : "/public/card.png",
       title: item.content || "",
       date: new Date(item.send_time),
-      list_name: undefined
+      list_name: item.notification_type,
     })
   }
 }
@@ -27,6 +27,7 @@ updateCards()
 <template>
   <div class="notifications-container">
     <!--    <div class="fuzzy oval1"/>-->
+
     <div class="scrollbar">
       <input class="search"/>
       <div class="cards">
@@ -52,7 +53,6 @@ div.notifications-container {
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: hidden;
   @media (max-width: 1280px) {
     padding: 3rem 1.6rem 0 1.6rem;
 
@@ -77,7 +77,8 @@ div.fuzzy {
 
 div.scrollbar {
   padding: 0 2.6rem 0 0;
-  overflow: scroll;
+  overflow-x: visible;
+  overflow-y: scroll;
   width: 100%;
   height: 100%;
   display: flex;
@@ -108,13 +109,17 @@ div.scrollbar {
 input.search {
   margin-bottom: 1.25rem;
   padding: 0 1.5rem;
-  width: 100%;
   height: 3.75rem;
   min-height: 3.75rem;
   font-size: 1.5rem;
   border: none;
   border-radius: 1.25rem;
   background-color: #FCFCFC;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .08);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
 
   &:focus {
     outline: none;
