@@ -4,23 +4,50 @@ import type {Ref} from 'vue'
 import Card from "./Card.vue";
 import type {CardProps} from "./Card.vue";
 import Pagination from "./Pagination.vue";
+import axios from "axios";
 
 const cards: Ref<Array<CardProps>> = ref([])
 
-for (let i = 0; i < 50; i++) {
-  cards.value.push({
-    image: '/public/card.png',
-    title: '10.05 20:12:49 通知 托管7号机 1阿克小姐 12分钟 LS-6x3',
-    date: '2021-09-08 12:00',
-    list_name: '114514'
-  })
+const server = axios.create({
+  baseURL: '/api/',
+  timeout: 5000,
+})
+
+
+interface ArkLightsSearch {
+  total: number,
+  items: Array<{
+    content?: string;
+    id: number;
+    image_path?: string;
+    notification_type: string;
+    send_time: string;
+  }>
 }
 
+server.get<ArkLightsSearch>("/resource/notification/ark-lights/search", {
+  params: {
+    page: 1,
+    page_size: 64
+  }
+}).then(res => {
+  console.log(res);
+  for (let item of res.data.items) {
+    cards.value.push({
+      image: item.image_path ? "/api/resource/image/" + item.image_path : "/public/card.png",
+      title: item.content || "",
+      date: new Date(item.send_time),
+      list_name: undefined
+    })
+  }
+}).catch(err => {
+  console.log(err)
+})
 </script>
 
 <template>
   <div class="notifications-container">
-    <div class="fuzzy oval1"/>
+    <!--    <div class="fuzzy oval1"/>-->
     <div class="scrollbar">
       <input class="search"/>
       <div class="cards">
