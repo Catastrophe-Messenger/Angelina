@@ -32,8 +32,7 @@ const props = defineProps<CardProps>()
   flex-wrap: wrap;
   align-content: space-between;
   gap: 0 0.9rem;
-  box-sizing: border-box;
-  background-color: white;
+  background-color: var(--color-notification-card-background);
 }
 
 .card-container div:last-child {

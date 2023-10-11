@@ -12,6 +12,7 @@
 div.menu-container {
   width: 22rem;
   background-color: white;
+  transition: width 0.2s;
   @media (max-width: 1280px) {
     width: 0;
   }

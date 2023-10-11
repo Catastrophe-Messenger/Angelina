@@ -4,35 +4,14 @@ import type {Ref} from 'vue'
 import Card from "./Card.vue";
 import type {CardProps} from "./Card.vue";
 import Pagination from "./Pagination.vue";
-import axios from "axios";
+import {NotificationArkLightsSearch} from "@/api/resource";
 
 const cards: Ref<Array<CardProps>> = ref([])
 
-const server = axios.create({
-  baseURL: '/api/',
-  timeout: 5000,
-})
-
-
-interface ArkLightsSearch {
-  total: number,
-  items: Array<{
-    content?: string;
-    id: number;
-    image_path?: string;
-    notification_type: string;
-    send_time: string;
-  }>
-}
-
-server.get<ArkLightsSearch>("/resource/notification/ark-lights/search", {
-  params: {
-    page: 1,
-    page_size: 64
-  }
-}).then(res => {
-  console.log(res);
-  for (let item of res.data.items) {
+async function updateCards(page: number = 1, page_size: number = 64) {
+  cards.value = []
+  let data = await NotificationArkLightsSearch.get({page: page, page_size: page_size})
+  for (let item of data.items) {
     cards.value.push({
       image: item.image_path ? "/api/resource/image/" + item.image_path : "/public/card.png",
       title: item.content || "",
@@ -40,9 +19,9 @@ server.get<ArkLightsSearch>("/resource/notification/ark-lights/search", {
       list_name: undefined
     })
   }
-}).catch(err => {
-  console.log(err)
-})
+}
+
+updateCards()
 </script>
 
 <template>
@@ -146,7 +125,7 @@ div.cards {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-  grid-gap: 0.5rem 2.875rem;
+  grid-gap: 0.5rem 2.5rem;
 }
 
 div.bottom {

@@ -1,4 +1,6 @@
 :root {
-  --color-notification-background: #dde9f3;
-  --color-notification-card-background: #ffffff;
+  --color-base1: #ffffff;
+  --color-base2: #dde9f3;
+  --color-notification-card-background: var(--color-base1);
+  --color-notification-background: var(--color-base2);
 }
