@@ -1,4 +1,5 @@
 <script setup lang="ts">
+//TODO 搜索遮罩
 import {ref} from 'vue'
 import type {Ref} from 'vue'
 import Card from "./Card.vue";
@@ -113,6 +114,8 @@ div.scrollbar {
   &::-webkit-scrollbar-thumb:hover {
     background-color: rgba(160, 152, 174, 0.9);
   }
+
+
 }
 
 
@@ -125,14 +128,25 @@ input.search {
   border: none;
   border-radius: 1.25rem;
   background-color: #FCFCFC;
-  box-shadow: 0 -2.5rem 2rem 4rem var(--color-notification-background);
   position: sticky;
   top: 0;
   z-index: 2;
-
+//box-shadow: 0 -2.5rem 2rem 4rem var(--color-notification-background);
 
   &:focus {
     outline: none;
+  }
+
+
+  &::before {
+    ontent: "";
+    position: absolute;
+    width: 90%;
+    height: 10%;
+    top: 0;
+    left: 0;
+    background-color: red;
+    z-index: 5;
   }
 }
 
