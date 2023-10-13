@@ -38,11 +38,14 @@ jobs:
     - name: Install SSH client
       uses: appleboy/ssh-action@master
     
-    - name: Configure SSH connection
-      run: |
-        echo "$secrets.SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H $secrets.SERVER_IP >> ~/.ssh/known_hosts
+    - name: Install SSH client
+      uses: appleboy/ssh-action@master
+      with:
+        host: $secrets.SERVER_IP
+        port: $secrets.SERVER_PORT
+        username: $secrets.SSH_USER
+        password: $secrets.SSH_PASSWORD
+        key: secrets.SSH_PRIVATE_KEY
         
     - name: Remove old dist
       run: |
