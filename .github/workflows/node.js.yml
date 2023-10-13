@@ -38,7 +38,7 @@ jobs:
     - name: Install SSH client
       uses: appleboy/ssh-action@master
     
-     - name: Configure SSH connection
+    - name: Configure SSH connection
       run: |
         echo "$secrets.SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
