@@ -35,22 +35,14 @@ jobs:
         name: built-files
         path: dist
     
-    - name: Install SSH client
-      uses: appleboy/ssh-action@master
-    
-    - name: Install SSH client
-      uses: appleboy/ssh-action@master
+    - name: Deploy to Staging server
+      uses: easingthemes/ssh-deploy@main
       with:
-        host: $secrets.SERVER_IP
-        port: $secrets.SERVER_PORT
-        username: $secrets.SSH_USER
-        password: $secrets.SSH_PASSWORD
-        key: secrets.SSH_PRIVATE_KEY
-        
-    - name: Remove old dist
-      run: |
-        ssh $secrets.SSH_USER@$secrets.SERVER_IP "rm -rf E:/ArkLights/Angelina/dist"
-        
-    - name: Upload to server
-      run: |
-        scp -r dist/* $secrets.SSH_USER@$secrets.SERVER_IP:E:/ArkLights/Angelina/dist
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SOURCE: "dist/"
+        REMOTE_HOST: ${{ secrets.SSH_IP }}
+        REMOTE_USER: ${{ secrets.SSH_USER }}
+        REMOTE_PORT: ${{ secrets.SSH_PORT }}
+        TARGET: ${{ secrets.REMOTE_TARGET }}
+        SCRIPT_BEFORE: |
+          rm -rf $secrets.REMOTE_TARGET
