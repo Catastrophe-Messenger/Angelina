@@ -35,3 +35,19 @@ jobs:
         name: built-files
         path: dist
     
+    - name: Install SSH client
+      uses: appleboy/ssh-action@master
+    
+     - name: Configure SSH connection
+      run: |
+        echo "$secrets.SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H $secrets.SERVER_IP >> ~/.ssh/known_hosts
+        
+    - name: Remove old dist
+      run: |
+        ssh $secrets.SSH_USER@$secrets.SERVER_IP "rm -rf E:/ArkLights/Angelina/dist"
+        
+    - name: Upload to server
+      run: |
+        scp -r dist/* $secrets.SSH_USER@$secrets.SERVER_IP:E:/ArkLights/Angelina/dist
