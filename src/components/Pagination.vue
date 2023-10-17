@@ -1,11 +1,51 @@
 <script setup lang="ts">
+import {ref, watch, onMounted} from "vue";
+import type {Ref} from "vue";
+
+export interface PaginationProps {
+  total: number
+  page: number
+  page_size: number
+  length: number
+}
+
+// const props = defineProps<PaginationProps>()
+
+const props: Ref<PaginationProps> = ref({
+  total: 99,
+  page: 1,
+  page_size: 10
+})
+
+const currentPage: Ref<number> = ref(props.value.page);
+const pageButtons: Ref<Array<{ value: number, class: string }>> = ref([]);
+
+async function pageSwitch(page: number) {
+  let pageCount = Math.ceil(props.value.total / props.value.page_size)
+  currentPage.value = page
+  pageButtons.value = []
+  for (const offset of [-2, -1, 0, 1, 2]) {
+    let offsetPage = page + offset;
+    if (offsetPage > 0 && offsetPage <= pageCount) {
+      pageButtons.value.push({
+        value: offsetPage,
+        class: offsetPage === page ? "page-button select" : "page-button"
+      })
+    }
+  }
+}
+
+
+onMounted(async () => {
+  console.log("mounted")
+  await pageSwitch(props.value.page)
+});
 
 </script>
 
 <template>
   <div class="pagination-container">
-    <div v-for="index in [1,2,3,4,5,6]" class="page-button">{{ index }}</div>
-    <div class="page-button">...100</div>
+    <button v-for="page in pageButtons" @click="pageSwitch(page.value)" :class="page.class">{{ page.value }}</button>
     <input class="page-button"/>
   </div>
 </template>
@@ -31,9 +71,13 @@ div.pagination-container {
   align-items: center;
   padding: 0 0.9rem;
   box-shadow: -1px 5px 13px -10px rgba(0, 0, 0, 0.25);
+
+  &.select {
+    background-color: #D3E4FD;
+  }
 }
 
-div.page-button:hover {
+button.page-button:hover {
   cursor: pointer;
   background-color: #D3E4FD;
 }
