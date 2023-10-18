@@ -65,7 +65,7 @@ img {
 
 .subtitle {
   padding: 0 0.2rem;
-  font-size: 0.625rem;
+  font-size: 0.8rem;
   font-weight: normal;
   color: rgb(187, 189, 191);
 }
