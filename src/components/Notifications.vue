@@ -21,17 +21,18 @@ const NOTIFICATION_TYPES_MAP: { [key: string]: string } = {
 const pageSize: number = 128
 
 async function updateCards(page: number = 1) {
-  cards.value = [];
+  let new_cards = [];
   let data = await NotificationArkLightsSearch.request({page: page, page_size: pageSize});
   total.value = data.total;
   for (let item of data.items) {
-    cards.value.push({
+    new_cards.push({
       image: item.image_path ? "/api/resource/image/" + item.image_path : "/public/card.png",
       title: item.content || "",
       date: new Date(item.send_time),
       tag: NOTIFICATION_TYPES_MAP[item.notification_type],
     })
   }
+  cards.value = new_cards;
   console.log(total.value)
 }
 
