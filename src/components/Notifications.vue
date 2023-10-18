@@ -18,7 +18,7 @@ const NOTIFICATION_TYPES_MAP: { [key: string]: string } = {
   "timeout_restart": "超时重启",
   "integrated_strategies": "集成战略"
 }
-const pageSize: number = 128
+const pageSize: number = 48
 
 async function updateCards(page: number = 1) {
   let new_cards = [];
