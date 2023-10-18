@@ -3,50 +3,72 @@ import {ref, watch, onMounted} from "vue";
 import type {Ref} from "vue";
 
 export interface PaginationProps {
-  total: number
-  page: number
-  page_size: number
-  length: number
+  total: number;
+  pageSize: number;
+  maxLength: number;
+  jump: (page: number) => void;
 }
 
-// const props = defineProps<PaginationProps>()
+const props = defineProps<PaginationProps>()
 
-const props: Ref<PaginationProps> = ref({
-  total: 99,
-  page: 1,
-  page_size: 10
-})
-
-const currentPage: Ref<number> = ref(props.value.page);
+const currentPage: Ref<number> = ref(1);
 const pageButtons: Ref<Array<{ value: number, class: string }>> = ref([]);
+const inputValue: Ref<string> = ref("");
 
-async function pageSwitch(page: number) {
-  let pageCount = Math.ceil(props.value.total / props.value.page_size)
-  currentPage.value = page
-  pageButtons.value = []
-  for (const offset of [-2, -1, 0, 1, 2]) {
-    let offsetPage = page + offset;
-    if (offsetPage > 0 && offsetPage <= pageCount) {
-      pageButtons.value.push({
-        value: offsetPage,
-        class: offsetPage === page ? "page-button select" : "page-button"
-      })
-    }
+
+async function flush() {
+  let page = currentPage.value
+  let pageCount = Math.ceil(props.total / props.pageSize);
+  if (page < 1) page = 1;
+  if (page > pageCount) page = pageCount;
+  let start = page - (Math.ceil(props.maxLength / 2) - 1);
+  if (start < 1) start = 1;
+  let end = start + props.maxLength - 1;
+  if (end > pageCount) {
+    start -= end - pageCount
+    if (start < 1) start = 1;
+    end = pageCount
+  }
+  pageButtons.value = [];
+  for (let i = start; i <= end; i++) {
+    pageButtons.value.push({
+      value: i,
+      class: i === page ? "page-button select" : "page-button"
+    })
   }
 }
 
+async function jumpSwitchPage(page: number) {
+  currentPage.value = page
+  await flush()
+  props.jump(currentPage.value)
+}
+
+async function jumpInputPage() {
+  currentPage.value = Number(inputValue.value)
+  await flush()
+
+}
+
+watch(
+    props,
+    async () => {
+      await flush()
+    }
+)
 
 onMounted(async () => {
-  console.log("mounted")
-  await pageSwitch(props.value.page)
+  await flush()
 });
 
 </script>
 
 <template>
   <div class="pagination-container">
-    <button v-for="page in pageButtons" @click="pageSwitch(page.value)" :class="page.class">{{ page.value }}</button>
-    <input class="page-button"/>
+    <button v-for="page in pageButtons" @click="jumpSwitchPage(page.value)"
+            :class="page.class">{{ page.value }}
+    </button>
+    <input class="page-button" v-model="inputValue" @keydown.enter="jumpInputPage" type="number"/>
   </div>
 </template>
 
@@ -73,7 +95,7 @@ div.pagination-container {
   box-shadow: -1px 5px 13px -10px rgba(0, 0, 0, 0.25);
 
   &.select {
-    background-color: #D3E4FD;
+    background-color: #226dec;
   }
 }
 
@@ -84,6 +106,11 @@ button.page-button:hover {
 
 input.page-button {
   max-width: 5rem;
+  text-align: center;
+
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
 
   &:focus {
     outline: none;

@@ -1,12 +1,13 @@
 <script setup lang="ts">
 //TODO 搜索遮罩
-import {ref} from 'vue'
+import {ref, onMounted} from 'vue'
 import type {Ref} from 'vue'
 import Card from "./Card.vue";
 import type {CardProps} from "./Card.vue";
 import Pagination from "./Pagination.vue";
 import {NotificationArkLightsSearch} from "@/api/resource";
 
+const total: Ref<number> = ref(0)
 const cards: Ref<Array<CardProps>> = ref([])
 
 const NOTIFICATION_TYPES_MAP: { [key: string]: string } = {
@@ -17,11 +18,12 @@ const NOTIFICATION_TYPES_MAP: { [key: string]: string } = {
   "timeout_restart": "超时重启",
   "integrated_strategies": "集成战略"
 }
+const pageSize: number = 128
 
-
-async function updateCards(page: number = 1, page_size: number = 255) {
-  cards.value = []
-  let data = await NotificationArkLightsSearch.request({page: page, page_size: page_size})
+async function updateCards(page: number = 1) {
+  cards.value = [];
+  let data = await NotificationArkLightsSearch.request({page: page, page_size: pageSize});
+  total.value = data.total;
   for (let item of data.items) {
     cards.value.push({
       image: item.image_path ? "/api/resource/image/" + item.image_path : "/public/card.png",
@@ -30,15 +32,17 @@ async function updateCards(page: number = 1, page_size: number = 255) {
       tag: NOTIFICATION_TYPES_MAP[item.notification_type],
     })
   }
+  console.log(total.value)
 }
 
-updateCards()
+onMounted(async () => {
+  await updateCards()
+})
 </script>
 
 <template>
   <div class="notifications-container">
     <!--    <div class="fuzzy oval1"/>-->
-
     <div class="scrollbar">
       <input class="search"/>
       <div class="cards">
@@ -47,8 +51,8 @@ updateCards()
       </div>
     </div>
     <div class="bottom">
-      <p>24小时内有5条消息 30条报错 100条错误密码</p>
-      <Pagination/>
+      <p>24小时内有5条消息 {{ total }}条报错 100条错误密码</p>
+      <Pagination :pageSize="pageSize" :total="total" :maxLength="5" :jump="updateCards"/>
     </div>
   </div>
 </template>
