@@ -52,7 +52,8 @@ img {
   font-size: 1.125rem;
   font-weight: 600;
   line-height: 1.5;
-  color: rgb(49, 55, 61);
+  min-height: 3.375rem;
+  color: var(--color-notification-card-title);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
