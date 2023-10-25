@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import {ref, defineEmits} from 'vue';
+import {ref} from 'vue';
 import type {Ref} from 'vue';
 import {Login} from "@/api/auth";
 
-const emit = defineEmits(['success', 'failed'])
+const emit = defineEmits<{
+  (e: 'success'): void
+  (e: 'close'): void
+}>()
 
 const enable: Ref<boolean> = ref(true);
 const username: Ref<string> = ref('');
@@ -11,6 +14,7 @@ const password: Ref<string> = ref('');
 
 async function close() {
   enable.value = false;
+  emit('close')
 }
 
 async function login() {
@@ -21,33 +25,23 @@ async function login() {
   })
   await close();
   emit('success')
+  emit('close')
 }
 </script>
 
 <template>
   <Teleport to="body" v-if="enable">
-    <div class="login-container">
-      <div class="background" @click="close">
-        <form class="form" @submit.prevent="login" @click.stop>
-          <input v-model="username" placeholder="用户名">
-          <input v-model="password" placeholder="密码">
-          <button type="submit">登录</button>
-        </form>
-      </div>
+    <div class="background" @click="close">
+      <form class="form" @submit.prevent="login" @click.stop>
+        <input v-model="username" placeholder="用户名">
+        <input v-model="password" placeholder="密码">
+        <button type="submit">登录</button>
+      </form>
     </div>
   </Teleport>
 </template>
 
 <style scoped>
-div.login-container {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  align-items: center;
-  justify-items: center;
-}
 
 div.background {
   background-color: #000000aa;

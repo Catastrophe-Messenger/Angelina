@@ -61,7 +61,7 @@ onMounted(async () => {
       <Pagination :pageNumber="1" :pageCount="Math.ceil(total/pageSize)" :maxLength="5" @jump="updateCards"/>
     </div>
   </div>
-  <Login v-if="loginEnable" @success="updateCards(1)"/>
+  <Login v-if="loginEnable" @success="updateCards(1)" @close="()=>loginEnable=false"/>
 </template>
 
 <style scoped>

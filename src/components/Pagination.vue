@@ -9,7 +9,9 @@ export interface PaginationProps {
 }
 
 const props = defineProps<PaginationProps>()
-const emit = defineEmits(['jump'])
+const emit = defineEmits<{
+  (e: 'jump', page: number): void
+}>()
 
 
 const currentPage: Ref<number> = ref(1);
