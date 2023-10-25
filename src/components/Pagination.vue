@@ -20,7 +20,7 @@ const inputValue: Ref<string> = ref("");
 async function flush() {
   let page = currentPage.value
   if (page < 1) page = 1;
-  if (page > props.pageCount) page = pageCount;
+  if (page > props.pageCount) page = props.pageCount;
   let start = page - (Math.ceil(props.maxLength / 2) - 1);
   if (start < 1) start = 1;
   let end = start + props.maxLength - 1;
@@ -59,7 +59,6 @@ watch(
 
 onMounted(async () => {
   await flush()
-  console.log(props);
 });
 
 </script>

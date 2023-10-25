@@ -11,7 +11,7 @@ import {NotificationArkLightsSearch} from "@/api/resource";
 const pageSize: number = 48
 const total: Ref<number> = ref(0)
 const cards: Ref<Array<CardProps>> = ref([])
-const login_enable: Ref<boolean> = ref(false)
+const loginEnable: Ref<boolean> = ref(false)
 
 const NOTIFICATION_TYPES_MAP: { [key: string]: string } = {
   "task_start": "任务开始",
@@ -37,7 +37,7 @@ async function updateCards(page: number = 1) {
     }
     cards.value = new_cards;
   } catch (error) {
-    login_enable.value = true
+    loginEnable.value = true
   }
 }
 
@@ -61,7 +61,7 @@ onMounted(async () => {
       <Pagination :pageNumber="1" :pageCount="Math.ceil(total/pageSize)" :maxLength="5" @jump="updateCards"/>
     </div>
   </div>
-  <Login v-if="login_enable" @success="updateCards(1)"/>
+  <Login v-if="loginEnable" @success="updateCards(1)"/>
 </template>
 
 <style scoped>
