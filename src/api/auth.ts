@@ -10,10 +10,6 @@ export namespace Login {
   }
 
   export async function request(params: Request) {
-    try {
-      await server.post<Response>(url, params);
-    } catch (error) {
-      throw error;
-    }
+    await server.post<Response>(url, params);
   }
 }

@@ -93,7 +93,7 @@ div.pagination-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 0.9rem;
+  padding: 0 0.3rem;
   box-shadow: -1px 5px 13px -10px rgba(0, 0, 0, 0.25);
 
   &.select {
