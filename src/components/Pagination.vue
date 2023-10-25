@@ -3,13 +3,14 @@ import {ref, watch, onMounted} from "vue";
 import type {Ref} from "vue";
 
 export interface PaginationProps {
-  total: number;
-  pageSize: number;
+  pageNumber: number;
+  pageCount: number;
   maxLength: number;
-  jump: (page: number) => void;
 }
 
 const props = defineProps<PaginationProps>()
+const emit = defineEmits(['jump'])
+
 
 const currentPage: Ref<number> = ref(1);
 const pageButtons: Ref<Array<{ value: number, class: string }>> = ref([]);
@@ -18,16 +19,15 @@ const inputValue: Ref<string> = ref("");
 
 async function flush() {
   let page = currentPage.value
-  let pageCount = Math.ceil(props.total / props.pageSize);
   if (page < 1) page = 1;
-  if (page > pageCount) page = pageCount;
+  if (page > props.pageCount) page = pageCount;
   let start = page - (Math.ceil(props.maxLength / 2) - 1);
   if (start < 1) start = 1;
   let end = start + props.maxLength - 1;
-  if (end > pageCount) {
-    start -= end - pageCount
+  if (end > props.pageCount) {
+    start -= end - props.pageCount;
     if (start < 1) start = 1;
-    end = pageCount
+    end = props.pageCount
   }
   pageButtons.value = [];
   for (let i = start; i <= end; i++) {
@@ -41,7 +41,7 @@ async function flush() {
 async function jumpSwitchPage(page: number) {
   currentPage.value = page
   await flush()
-  props.jump(currentPage.value)
+  emit('jump', page)
 }
 
 async function jumpInputPage() {
@@ -59,15 +59,18 @@ watch(
 
 onMounted(async () => {
   await flush()
+  console.log(props);
 });
 
 </script>
 
 <template>
   <div class="pagination-container">
+    <button class="page-button" @click="jumpSwitchPage(1)">首页</button>
     <button v-for="page in pageButtons" @click="jumpSwitchPage(page.value)"
             :class="page.class">{{ page.value }}
     </button>
+    <button class="page-button" @click="jumpSwitchPage(pageCount)">末页</button>
     <input class="page-button" v-model="inputValue" @keydown.enter="jumpInputPage" type="number"/>
   </div>
 </template>

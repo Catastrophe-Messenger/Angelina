@@ -5,10 +5,13 @@ import type {Ref} from 'vue'
 import Card from "./Card.vue";
 import type {CardProps} from "./Card.vue";
 import Pagination from "./Pagination.vue";
+import Login from "@/components/Login.vue";
 import {NotificationArkLightsSearch} from "@/api/resource";
 
+const pageSize: number = 128
 const total: Ref<number> = ref(0)
 const cards: Ref<Array<CardProps>> = ref([])
+const login_enable: Ref<boolean> = ref(false)
 
 const NOTIFICATION_TYPES_MAP: { [key: string]: string } = {
   "task_start": "任务开始",
@@ -18,22 +21,24 @@ const NOTIFICATION_TYPES_MAP: { [key: string]: string } = {
   "timeout_restart": "超时重启",
   "integrated_strategies": "集成战略"
 }
-const pageSize: number = 128
 
 async function updateCards(page: number = 1) {
-  let new_cards = [];
-  let data = await NotificationArkLightsSearch.request({page: page, page_size: pageSize});
-  total.value = data.total;
-  for (let item of data.items) {
-    new_cards.push({
-      image: item.image_path ? "/api/resource/image/" + item.image_path : "/public/card.png",
-      title: item.content || "",
-      date: new Date(item.send_time),
-      tag: NOTIFICATION_TYPES_MAP[item.notification_type],
-    })
+  try {
+    let data = await NotificationArkLightsSearch.request({page: page, page_size: pageSize});
+    total.value = data.total;
+    let new_cards = [];
+    for (let item of data.items) {
+      new_cards.push({
+        image: item.image_path ? "/api/resource/image/" + item.image_path : "/public/card.png",
+        title: item.content || "",
+        date: new Date(item.send_time),
+        tag: NOTIFICATION_TYPES_MAP[item.notification_type],
+      })
+    }
+    cards.value = new_cards;
+  } catch (error) {
+    login_enable.value = true
   }
-  cards.value = new_cards;
-  console.log(total.value)
 }
 
 onMounted(async () => {
@@ -53,9 +58,10 @@ onMounted(async () => {
     </div>
     <div class="bottom">
       <p>24小时内有5条消息 {{ total }}条报错 100条错误密码</p>
-      <Pagination :pageSize="pageSize" :total="total" :maxLength="5" :jump="updateCards"/>
+      <Pagination :pageNumber="1" :pageCount="Math.ceil(total/pageSize)" :maxLength="5" @jump="updateCards"/>
     </div>
   </div>
+  <Login v-if="login_enable" @success="updateCards(1)"/>
 </template>
 
 <style scoped>
@@ -99,7 +105,6 @@ div.scrollbar {
   height: 100%;
   display: flex;
   flex-direction: column;
-  z-index: 1;
 
   &::-webkit-scrollbar {
     width: 0.35rem;
@@ -135,23 +140,10 @@ input.search {
   background-color: #FCFCFC;
   position: sticky;
   top: 0;
-  z-index: 2;
 //box-shadow: 0 -2.5rem 2rem 4rem var(--color-notification-background);
 
   &:focus {
     outline: none;
-  }
-
-
-  &::before {
-    ontent: "";
-    position: absolute;
-    width: 90%;
-    height: 10%;
-    top: 0;
-    left: 0;
-    background-color: red;
-    z-index: 5;
   }
 }
 
@@ -170,7 +162,6 @@ div.bottom {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  z-index: 1;
 }
 </style>
 

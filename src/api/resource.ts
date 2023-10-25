@@ -30,12 +30,13 @@ export namespace NotificationArkLightsSearch {
     }>
   }
 
+  export interface Error {
+    msg: string;
+    type: string;
+  }
+
   export async function request(params: Request): Promise<Response> {
-    try {
-      let response = await server.get<Response>(url, {params});
-      return response.data
-    } catch (error) {
-      throw error;
-    }
+    let response = await server.get<Response>(url, {params});
+    return response.data
   }
 }

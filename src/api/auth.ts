@@ -9,7 +9,6 @@ export namespace Login {
     time: number;
   }
 
-
   export async function request(params: Request) {
     try {
       await server.post<Response>(url, params);
