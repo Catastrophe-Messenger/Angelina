@@ -5,10 +5,10 @@ import type {Ref} from "vue";
 export interface PaginationProps {
   pageNumber: number;
   pageCount: number;
-  maxLength: number;
+  maxLength?: number;
 }
 
-const props = defineProps<PaginationProps>()
+const props = withDefaults(defineProps<PaginationProps>(), {maxLength: 5})
 const emit = defineEmits<{
   (e: 'jump', page: number): void
 }>()

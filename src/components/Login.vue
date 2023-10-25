@@ -23,9 +23,8 @@ async function login() {
     password: password.value,
     time: Date.now()
   })
-  await close();
   emit('success')
-  emit('close')
+  await close();
 }
 </script>
 

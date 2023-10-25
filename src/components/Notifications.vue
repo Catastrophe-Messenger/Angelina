@@ -58,7 +58,7 @@ onMounted(async () => {
     </div>
     <div class="bottom">
       <p>24小时内有5条消息 {{ total }}条报错 100条错误密码</p>
-      <Pagination :pageNumber="1" :pageCount="Math.ceil(total/pageSize)" :maxLength="5" @jump="updateCards"/>
+      <Pagination :pageNumber="1" :pageCount="Math.ceil(total/pageSize)" @jump="updateCards"/>
     </div>
   </div>
   <Login v-if="loginEnable" @success="updateCards(1)" @close="()=>loginEnable=false"/>
