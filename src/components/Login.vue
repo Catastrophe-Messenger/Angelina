@@ -27,12 +27,13 @@ async function login() {
 <template>
   <Teleport to="body" v-if="enable">
     <div class="login-container">
-      <div class="background"/>
-      <form class="form" @submit.prevent="login">
-        <input v-model="username" placeholder="用户名">
-        <input v-model="password" placeholder="密码">
-        <button type="submit">登录</button>
-      </form>
+      <div class="background" @click="close">
+        <form class="form" @submit.prevent="login" @click.stop>
+          <input v-model="username" placeholder="用户名">
+          <input v-model="password" placeholder="密码">
+          <button type="submit">登录</button>
+        </form>
+      </div>
     </div>
   </Teleport>
 </template>
@@ -55,6 +56,9 @@ div.background {
   left: 0;
   width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 form.form {
@@ -62,7 +66,6 @@ form.form {
   height: 15rem;
   padding: 2rem;
   border-radius: 2rem;
-  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
