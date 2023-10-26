@@ -8,10 +8,10 @@ import Pagination from "./Pagination.vue";
 import Login from "@/components/Login.vue";
 import {NotificationArkLightsSearch} from "@/api/resource";
 
-const pageSize: number = 48
-const total: Ref<number> = ref(0)
-const cards: Ref<Array<CardProps>> = ref([])
-const loginEnable: Ref<boolean> = ref(false)
+const pageSize: Ref<number> = ref(48);
+const total: Ref<number> = ref(0);
+const cards: Ref<Array<CardProps>> = ref([]);
+const loginEnable: Ref<boolean> = ref(false);
 
 const NOTIFICATION_TYPES_MAP: { [key: string]: string } = {
   "task_start": "任务开始",
@@ -20,15 +20,16 @@ const NOTIFICATION_TYPES_MAP: { [key: string]: string } = {
   "mission_failed": "代理作战失败",
   "timeout_restart": "超时重启",
   "integrated_strategies": "集成战略"
-}
+};
 
 async function updateCards(page: number = 1) {
   try {
-    let data = await NotificationArkLightsSearch.request({page: page, page_size: pageSize});
+    let data = await NotificationArkLightsSearch.request({page: page, page_size: pageSize.value});
     total.value = data.total;
     let new_cards = [];
     for (let item of data.items) {
       new_cards.push({
+        id: item.id,
         image: item.image_path ? "/api/resource/image/" + item.image_path : "/public/card.png",
         title: item.content || "",
         date: new Date(item.send_time),
@@ -52,8 +53,8 @@ onMounted(async () => {
     <div class="scrollbar">
       <input class="search"/>
       <div class="cards">
-        <Card v-for="card in cards" :image="card.image" :title="card.title"
-              :date="card.date" :tag="card.tag"/>
+        <Card v-for="card in cards" @click="(id)=>console.log(id)" :id="card.id"
+              :image="card.image" :title="card.title" :date="card.date" :tag="card.tag"/>
       </div>
     </div>
     <div class="bottom">
@@ -99,7 +100,6 @@ div.fuzzy {
 
 div.scrollbar {
   padding: 0 2.6rem 0 0;
-  overflow-x: visible;
   overflow-y: scroll;
   width: 100%;
   height: 100%;
@@ -124,8 +124,6 @@ div.scrollbar {
   &::-webkit-scrollbar-thumb:hover {
     background-color: rgba(160, 152, 174, 0.9);
   }
-
-
 }
 
 
@@ -138,9 +136,7 @@ input.search {
   border: none;
   border-radius: 1.25rem;
   background-color: #FCFCFC;
-  position: sticky;
   top: 0;
-//box-shadow: 0 -2.5rem 2rem 4rem var(--color-notification-background);
 
   &:focus {
     outline: none;

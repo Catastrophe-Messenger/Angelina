@@ -1,21 +1,23 @@
 <script setup lang="ts">
 
 export interface CardProps {
-  image: string
-  title: string
-  date: Date
-  tag?: string
+  id: number;
+  image: string;
+  title: string;
+  date: Date;
+  tag?: string;
 }
 
 const props = defineProps<CardProps>()
-
-
+const emit = defineEmits<{
+  (e: 'click', id: number): void
+}>()
 </script>
 
 <template>
-  <div class="card-container">
+  <div class="card-container" @click="emit('click',props.id)">
     <img :src="props.image" alt="card"/>
-    <p class="title">{{ props.title }}</p>
+    <p class="title" :title="props.title">{{ props.title }}</p>
     <p class="subtitle">{{ props.date.toLocaleString('zh-CN', {hour12: false}).replace(/\//g, '-') }}</p>
     <p v-if="props.tag" class="subtitle">{{ props.tag }}</p>
     <div class="dotBox"><span class="dot"/><span class="dot"/><span class="dot"/></div>
@@ -33,6 +35,17 @@ const props = defineProps<CardProps>()
   align-content: space-between;
   gap: 0 0.3rem;
   background-color: var(--color-notification-card-background);
+  transition: all 0.15s;
+
+  &:hover {
+    cursor: pointer;
+    filter: brightness(0.9);
+  }
+
+  &:active {
+    cursor: cell;
+    filter: brightness(0.8);
+  }
 }
 
 .card-container div:last-child {
@@ -58,10 +71,6 @@ img {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-
-  &:hover {
-    -webkit-line-clamp: 5;
-  }
 }
 
 .subtitle {
