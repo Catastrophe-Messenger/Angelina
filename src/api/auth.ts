@@ -1,4 +1,4 @@
-import {server} from "@/api/server";
+import {server} from "@/api/utils";
 
 export namespace Login {
   export const url = 'auth/login';

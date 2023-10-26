@@ -1,4 +1,5 @@
-import {server} from "@/api/server";
+import {server, ApiError} from "@/api/utils";
+import type {AxiosError} from "axios";
 
 export namespace NotificationArkLightsSearch {
   export const url = 'resource/notification/ark-lights/search';
@@ -30,13 +31,18 @@ export namespace NotificationArkLightsSearch {
     }>
   }
 
-  export interface Error {
-    msg: string;
-    type: string;
-  }
-
   export async function request(params: Request): Promise<Response> {
-    let response = await server.get<Response>(url, {params});
-    return response.data
+    try {
+      let response = await server.get<Response>(url, {params});
+      return response.data
+    } catch (error) {
+      console.log(error, 123564,typeof error)
+      if (error instanceof AxiosError) {
+        console.log(44444, error)
+      } else {
+        console.log(5555, error, typeof error)
+      }
+      console.log(8888)
+    }
   }
 }

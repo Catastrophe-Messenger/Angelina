@@ -33,7 +33,7 @@ async function login() {
     <div class="background" @click="close">
       <form class="form" @submit.prevent="login" @click.stop>
         <input v-model="username" placeholder="用户名">
-        <input v-model="password" placeholder="密码">
+        <input v-model="password" type="password" placeholder="密码">
         <button type="submit">登录</button>
       </form>
     </div>

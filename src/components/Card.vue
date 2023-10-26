@@ -35,7 +35,7 @@ const emit = defineEmits<{
   align-content: space-between;
   gap: 0 0.3rem;
   background-color: var(--color-notification-card-background);
-  transition: all 0.15s;
+  transition: all 0.3s;
 
   &:hover {
     cursor: pointer;
@@ -43,7 +43,7 @@ const emit = defineEmits<{
   }
 
   &:active {
-    cursor: cell;
+    cursor: pointer;
     filter: brightness(0.8);
   }
 }

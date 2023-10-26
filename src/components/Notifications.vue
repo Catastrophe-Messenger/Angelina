@@ -8,7 +8,7 @@ import Pagination from "./Pagination.vue";
 import Login from "@/components/Login.vue";
 import {NotificationArkLightsSearch} from "@/api/resource";
 
-const pageSize: Ref<number> = ref(48);
+const pageSize: Ref<number> = ref(24);
 const total: Ref<number> = ref(0);
 const cards: Ref<Array<CardProps>> = ref([]);
 const loginEnable: Ref<boolean> = ref(false);

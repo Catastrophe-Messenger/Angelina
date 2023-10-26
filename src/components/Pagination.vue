@@ -72,7 +72,8 @@ onMounted(async () => {
             :class="page.class">{{ page.value }}
     </button>
     <button class="page-button" @click="jumpSwitchPage(pageCount)">末页</button>
-    <input class="page-button" v-model="inputValue" @keydown.enter="jumpInputPage" type="number"/>
+    <input class="page-button" v-model="inputValue" @keydown.enter="jumpInputPage" type="number" min="1"
+           :max="props.pageCount"/>
   </div>
 </template>
 
@@ -99,7 +100,7 @@ div.pagination-container {
   box-shadow: -1px 5px 13px -10px rgba(0, 0, 0, 0.25);
 
   &.select {
-    background-color: #226dec;
+    background-color: #2F82FF;
   }
 }
 
@@ -109,7 +110,7 @@ button.page-button:hover {
 }
 
 input.page-button {
-  max-width: 5rem;
+  min-width: 5rem;
   text-align: center;
 
   &::-webkit-inner-spin-button {
