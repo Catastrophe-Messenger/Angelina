@@ -1,5 +1,5 @@
-import {server, ApiError} from "@/api/utils";
-import type {AxiosError} from "axios";
+import {server, ApiError, convertToApiError} from "@/api/utils";
+import {AxiosError} from "axios";
 
 export namespace NotificationArkLightsSearch {
   export const url = 'resource/notification/ark-lights/search';
@@ -32,17 +32,16 @@ export namespace NotificationArkLightsSearch {
   }
 
   export async function request(params: Request): Promise<Response> {
-    try {
-      let response = await server.get<Response>(url, {params});
-      return response.data
-    } catch (error) {
-      console.log(error, 123564,typeof error)
-      if (error instanceof AxiosError) {
-        console.log(44444, error)
-      } else {
-        console.log(5555, error, typeof error)
-      }
-      console.log(8888)
-    }
+    // let response = await convertToApiError(
+    //   server.get<Response>(url, {params}).catch(
+    //     (error: AxiosError) => {
+    //
+    //     }
+    //   )
+    // );
+    // return response.data
+    let response = await server.get<Response>(url, {params: params});
+    console.log(response.data);
+    return response.data
   }
 }
